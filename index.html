@@ -83,13 +83,14 @@
                 </div>
             </section>
 
-            <!-- Timeline Chart -->
+            <!-- Timeline Chart (CUMULATIVE) -->
             <section class="chart-section">
                 <div class="chart-card">
                     <h3 class="chart-title">
                         <span class="chart-icon">📈</span>
-                        Drinks Over Time
+                        Cumulative Drinks Over Time
                     </h3>
+                    <p class="chart-subtitle">Your drinking journey by type</p>
                     <div class="chart-container chart-container--timeline">
                         <canvas id="timelineChart"></canvas>
                     </div>
@@ -110,6 +111,34 @@
                 </div>
             </section>
 
+            <!-- Day of Week Chart -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">📅</span>
+                        Drinks by Day of Week
+                    </h3>
+                    <p class="chart-subtitle">Which days do you drink most?</p>
+                    <div class="chart-container">
+                        <canvas id="dayOfWeekChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hourly Chart -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">⏰</span>
+                        Drinks by Hour
+                    </h3>
+                    <p class="chart-subtitle">Your drinking hours</p>
+                    <div class="chart-container">
+                        <canvas id="hourlyChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
             <!-- Drinking Patterns Heatmap -->
             <section class="chart-section">
                 <div class="chart-card">
@@ -117,8 +146,50 @@
                         <span class="chart-icon">🔥</span>
                         Drinking Patterns
                     </h3>
-                    <p class="chart-subtitle">When do you drink the most?</p>
+                    <p class="chart-subtitle">Day × Hour heatmap</p>
                     <div class="heatmap-container" id="heatmapContainer"></div>
+                </div>
+            </section>
+
+            <!-- Countries Chart -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">🌍</span>
+                        Drinks by Country
+                    </h3>
+                    <p class="chart-subtitle">Where you've been drinking</p>
+                    <div class="chart-container">
+                        <canvas id="countryChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Session Size Chart -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">🍻</span>
+                        Session Size
+                    </h3>
+                    <p class="chart-subtitle">How many drinks per session?</p>
+                    <div class="chart-container">
+                        <canvas id="sessionChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Year Comparison Chart -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">📆</span>
+                        Year over Year
+                    </h3>
+                    <p class="chart-subtitle">Monthly comparison by year</p>
+                    <div class="chart-container chart-container--timeline">
+                        <canvas id="yearComparisonChart"></canvas>
+                    </div>
                 </div>
             </section>
 

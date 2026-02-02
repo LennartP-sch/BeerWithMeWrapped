@@ -341,6 +341,274 @@ const Charts = {
     },
 
     /**
+     * Create Day of Week Bar Chart
+     */
+    createDayOfWeekChart(ctx, data) {
+        if (this.instances.dayOfWeek) {
+            this.instances.dayOfWeek.destroy();
+        }
+
+        this.instances.dayOfWeek = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels.map(d => d.substring(0, 3)),
+                datasets: [{
+                    label: 'Drinks',
+                    data: data.values,
+                    backgroundColor: data.colors,
+                    borderColor: '#F5A623',
+                    borderWidth: 1,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(26, 26, 26, 0.95)',
+                        titleColor: '#FFF8E7',
+                        bodyColor: 'rgba(255, 255, 255, 0.8)',
+                        borderColor: 'rgba(245, 166, 35, 0.3)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        padding: 12
+                    }
+                },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+
+        return this.instances.dayOfWeek;
+    },
+
+    /**
+     * Create Hourly Area Chart
+     */
+    createHourlyChart(ctx, data) {
+        if (this.instances.hourly) {
+            this.instances.hourly.destroy();
+        }
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+        gradient.addColorStop(0, 'rgba(245, 166, 35, 0.6)');
+        gradient.addColorStop(1, 'rgba(245, 166, 35, 0.05)');
+
+        this.instances.hourly = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.labels.map(l => l.replace(':00', 'h')),
+                datasets: [{
+                    label: 'Drinks',
+                    data: data.values,
+                    borderColor: '#F5A623',
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 2,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(26, 26, 26, 0.95)',
+                        titleColor: '#FFF8E7',
+                        bodyColor: 'rgba(255, 255, 255, 0.8)',
+                        borderColor: 'rgba(245, 166, 35, 0.3)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        padding: 12
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { maxTicksLimit: 12, font: { size: 9 } }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+
+        return this.instances.hourly;
+    },
+
+    /**
+     * Create Country Horizontal Bar Chart
+     */
+    createCountryChart(ctx, data) {
+        if (this.instances.country) {
+            this.instances.country.destroy();
+        }
+
+        this.instances.country = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Drinks',
+                    data: data.values,
+                    backgroundColor: 'rgba(245, 166, 35, 0.7)',
+                    borderColor: '#F5A623',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(26, 26, 26, 0.95)',
+                        titleColor: '#FFF8E7',
+                        bodyColor: 'rgba(255, 255, 255, 0.8)',
+                        borderColor: 'rgba(245, 166, 35, 0.3)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        padding: 12
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        return this.instances.country;
+    },
+
+    /**
+     * Create Session Size Bar Chart
+     */
+    createSessionChart(ctx, data) {
+        if (this.instances.session) {
+            this.instances.session.destroy();
+        }
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+        gradient.addColorStop(0, 'rgba(155, 89, 182, 0.8)');
+        gradient.addColorStop(1, 'rgba(155, 89, 182, 0.3)');
+
+        this.instances.session = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels.map(l => l + ' drink' + (l === '1' ? '' : 's')),
+                datasets: [{
+                    label: 'Sessions',
+                    data: data.values,
+                    backgroundColor: gradient,
+                    borderColor: '#9B59B6',
+                    borderWidth: 1,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(26, 26, 26, 0.95)',
+                        titleColor: '#FFF8E7',
+                        bodyColor: 'rgba(255, 255, 255, 0.8)',
+                        borderColor: 'rgba(155, 89, 182, 0.3)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        padding: 12
+                    }
+                },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+
+        return this.instances.session;
+    },
+
+    /**
+     * Create Year Comparison Line Chart
+     */
+    createYearComparisonChart(ctx, data) {
+        if (this.instances.yearComparison) {
+            this.instances.yearComparison.destroy();
+        }
+
+        this.instances.yearComparison = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: data.datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            padding: 15,
+                            font: { size: 11 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(26, 26, 26, 0.95)',
+                        titleColor: '#FFF8E7',
+                        bodyColor: 'rgba(255, 255, 255, 0.8)',
+                        borderColor: 'rgba(245, 166, 35, 0.3)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        padding: 12
+                    }
+                },
+                scales: {
+                    x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+
+        return this.instances.yearComparison;
+    },
+
+    /**
      * Update all charts with new data
      */
     updateAll(data) {
@@ -349,8 +617,13 @@ const Charts = {
         const monthlyData = DataProcessor.getMonthlyActivity(data);
         const patternsData = DataProcessor.getDrinkingPatterns(data);
         const locations = DataProcessor.getTopLocations(data);
+        const dayOfWeekData = DataProcessor.getDayOfWeekData(data);
+        const hourlyData = DataProcessor.getHourlyData(data);
+        const countryData = DataProcessor.getCountryData(data);
+        const sessionData = DataProcessor.getSessionData(data);
+        const yearData = DataProcessor.getYearComparison(data);
 
-        // Timeline
+        // Timeline (Cumulative)
         const timelineCtx = document.getElementById('timelineChart');
         if (timelineCtx) {
             this.createTimelineChart(timelineCtx.getContext('2d'), timelineData);
@@ -364,16 +637,46 @@ const Charts = {
             this.createDistributionLegend(legendContainer, distributionData);
         }
 
-        // Monthly
-        const monthlyCtx = document.getElementById('monthlyChart');
-        if (monthlyCtx) {
-            this.createMonthlyChart(monthlyCtx.getContext('2d'), monthlyData);
+        // Day of Week
+        const dayOfWeekCtx = document.getElementById('dayOfWeekChart');
+        if (dayOfWeekCtx) {
+            this.createDayOfWeekChart(dayOfWeekCtx.getContext('2d'), dayOfWeekData);
+        }
+
+        // Hourly
+        const hourlyCtx = document.getElementById('hourlyChart');
+        if (hourlyCtx) {
+            this.createHourlyChart(hourlyCtx.getContext('2d'), hourlyData);
         }
 
         // Heatmap
         const heatmapContainer = document.getElementById('heatmapContainer');
         if (heatmapContainer) {
             this.createHeatmap(heatmapContainer, patternsData);
+        }
+
+        // Countries
+        const countryCtx = document.getElementById('countryChart');
+        if (countryCtx) {
+            this.createCountryChart(countryCtx.getContext('2d'), countryData);
+        }
+
+        // Sessions
+        const sessionCtx = document.getElementById('sessionChart');
+        if (sessionCtx) {
+            this.createSessionChart(sessionCtx.getContext('2d'), sessionData);
+        }
+
+        // Year Comparison
+        const yearCtx = document.getElementById('yearComparisonChart');
+        if (yearCtx) {
+            this.createYearComparisonChart(yearCtx.getContext('2d'), yearData);
+        }
+
+        // Monthly
+        const monthlyCtx = document.getElementById('monthlyChart');
+        if (monthlyCtx) {
+            this.createMonthlyChart(monthlyCtx.getContext('2d'), monthlyData);
         }
 
         // Locations
@@ -392,7 +695,7 @@ const Charts = {
                 chart.destroy();
             }
         });
-        this.instances = {};
+        this.instances = {}
     }
 };
 
