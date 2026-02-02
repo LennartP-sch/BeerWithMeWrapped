@@ -1,34 +1,29 @@
 /**
- * Charts Configuration for Beer With Me Wrapped
+ * Charts for Beer With Me Wrapped
  * Uses Chart.js for beautiful, responsive charts
  */
 
-const Charts = {
+var Charts = {
     instances: {},
 
-    // Chart.js global defaults
-    initDefaults() {
+    initDefaults: function () {
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.color = 'rgba(255, 255, 255, 0.7)';
         Chart.defaults.responsive = true;
         Chart.defaults.maintainAspectRatio = false;
-
-        // Animation defaults
         Chart.defaults.animation = {
             duration: 800,
             easing: 'easeOutQuart'
         };
     },
 
-    /**
-     * Create Timeline Chart (Drinks over time by type)
-     */
-    createTimelineChart(ctx, data) {
-        if (this.instances.timeline) {
-            this.instances.timeline.destroy();
+    createTimelineChart: function (ctx, data) {
+        var self = this;
+        if (self.instances.timeline) {
+            self.instances.timeline.destroy();
         }
 
-        this.instances.timeline = new Chart(ctx, {
+        self.instances.timeline = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: data.labels,
@@ -49,9 +44,7 @@ const Charts = {
                             usePointStyle: true,
                             pointStyle: 'circle',
                             padding: 15,
-                            font: {
-                                size: 11
-                            }
+                            font: { size: 11 }
                         }
                     },
                     tooltip: {
@@ -61,54 +54,32 @@ const Charts = {
                         borderColor: 'rgba(245, 166, 35, 0.3)',
                         borderWidth: 1,
                         cornerRadius: 8,
-                        padding: 12,
-                        displayColors: true,
-                        usePointStyle: true
+                        padding: 12
                     }
                 },
                 scales: {
                     x: {
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.05)',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            maxRotation: 45,
-                            minRotation: 45,
-                            font: {
-                                size: 10
-                            }
-                        }
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { maxRotation: 45, minRotation: 45, font: { size: 10 } }
                     },
                     y: {
                         beginAtZero: true,
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.05)',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            stepSize: 5,
-                            font: {
-                                size: 10
-                            }
-                        }
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
                     }
                 }
             }
         });
 
-        return this.instances.timeline;
+        return self.instances.timeline;
     },
 
-    /**
-     * Create Distribution Donut Chart
-     */
-    createDistributionChart(ctx, data) {
-        if (this.instances.distribution) {
-            this.instances.distribution.destroy();
+    createDistributionChart: function (ctx, data) {
+        var self = this;
+        if (self.instances.distribution) {
+            self.instances.distribution.destroy();
         }
 
-        this.instances.distribution = new Chart(ctx, {
+        self.instances.distribution = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: data.labels,
@@ -126,9 +97,7 @@ const Charts = {
                 maintainAspectRatio: false,
                 cutout: '65%',
                 plugins: {
-                    legend: {
-                        display: false // We'll use custom legend
-                    },
+                    legend: { display: false },
                     tooltip: {
                         backgroundColor: 'rgba(26, 26, 26, 0.95)',
                         titleColor: '#FFF8E7',
@@ -139,9 +108,9 @@ const Charts = {
                         padding: 12,
                         callbacks: {
                             label: function (context) {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((context.raw / total) * 100).toFixed(1);
-                                return `${context.label}: ${context.raw} (${percentage}%)`;
+                                var total = context.dataset.data.reduce(function (a, b) { return a + b; }, 0);
+                                var percentage = ((context.raw / total) * 100).toFixed(1);
+                                return context.label + ': ' + context.raw + ' (' + percentage + '%)';
                             }
                         }
                     }
@@ -149,23 +118,20 @@ const Charts = {
             }
         });
 
-        return this.instances.distribution;
+        return self.instances.distribution;
     },
 
-    /**
-     * Create Monthly Activity Bar Chart
-     */
-    createMonthlyChart(ctx, data) {
-        if (this.instances.monthly) {
-            this.instances.monthly.destroy();
+    createMonthlyChart: function (ctx, data) {
+        var self = this;
+        if (self.instances.monthly) {
+            self.instances.monthly.destroy();
         }
 
-        // Create gradient
-        const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+        var gradient = ctx.createLinearGradient(0, 0, 0, 250);
         gradient.addColorStop(0, 'rgba(245, 166, 35, 0.8)');
         gradient.addColorStop(1, 'rgba(200, 123, 21, 0.3)');
 
-        this.instances.monthly = new Chart(ctx, {
+        self.instances.monthly = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: data.labels,
@@ -175,17 +141,14 @@ const Charts = {
                     backgroundColor: gradient,
                     borderColor: '#F5A623',
                     borderWidth: 1,
-                    borderRadius: 4,
-                    borderSkipped: false
+                    borderRadius: 4
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
                         backgroundColor: 'rgba(26, 26, 26, 0.95)',
                         titleColor: '#FFF8E7',
@@ -198,160 +161,30 @@ const Charts = {
                 },
                 scales: {
                     x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            maxRotation: 45,
-                            minRotation: 45,
-                            font: {
-                                size: 9
-                            }
-                        }
+                        grid: { display: false },
+                        ticks: { maxRotation: 45, minRotation: 45, font: { size: 9 } }
                     },
                     y: {
                         beginAtZero: true,
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.05)',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 10
-                            }
-                        }
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
                     }
                 }
             }
         });
 
-        return this.instances.monthly;
+        return self.instances.monthly;
     },
 
-    /**
-     * Create Heatmap (day x hour)
-     */
-    createHeatmap(container, data) {
-        container.innerHTML = '';
-
-        const heatmap = document.createElement('div');
-        heatmap.className = 'heatmap';
-
-        // Header row with hours
-        heatmap.appendChild(document.createElement('div')); // Empty corner
-        for (let h = 0; h < 24; h += 2) {
-            const header = document.createElement('div');
-            header.className = 'heatmap-header';
-            header.textContent = h;
-            heatmap.appendChild(header);
+    createDayOfWeekChart: function (ctx, data) {
+        var self = this;
+        if (self.instances.dayOfWeek) {
+            self.instances.dayOfWeek.destroy();
         }
 
-        // Day rows
-        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-        const dayMapping = { 'Mon': 'Mon', 'Tue': 'Tue', 'Wed': 'Wed', 'Thu': 'Thu', 'Fri': 'Fri', 'Sat': 'Sat', 'Sun': 'Sun' };
-
-        days.forEach(day => {
-            // Day label
-            const label = document.createElement('div');
-            label.className = 'heatmap-label';
-            label.textContent = day;
-            heatmap.appendChild(label);
-
-            // Hour cells (show every 2 hours to fit mobile)
-            for (let h = 0; h < 24; h += 2) {
-                const cell = document.createElement('div');
-                cell.className = 'heatmap-cell';
-
-                // Sum 2 hours together
-                const count = (data.patterns[day][h] || 0) + (data.patterns[day][h + 1] || 0);
-
-                // Calculate level (1-5)
-                const level = data.max > 0 ? Math.min(5, Math.ceil((count / data.max) * 5)) : 0;
-                if (level > 0) {
-                    cell.setAttribute('data-level', level);
-                }
-
-                cell.title = `${day} ${h}:00-${h + 2}:00: ${count} drinks`;
-                heatmap.appendChild(cell);
-            }
-        });
-
-        container.appendChild(heatmap);
-    },
-
-    /**
-     * Create custom legend for donut chart
-     */
-    createDistributionLegend(container, data) {
-        container.innerHTML = '';
-
-        const maxItems = 8; // Limit legend items
-        const items = data.labels.slice(0, maxItems);
-
-        items.forEach((label, i) => {
-            const item = document.createElement('div');
-            item.className = 'legend-item';
-
-            const color = document.createElement('div');
-            color.className = 'legend-color';
-            color.style.backgroundColor = data.colors[i];
-
-            const text = document.createElement('span');
-            text.textContent = label;
-
-            item.appendChild(color);
-            item.appendChild(text);
-            container.appendChild(item);
-        });
-
-        if (data.labels.length > maxItems) {
-            const more = document.createElement('div');
-            more.className = 'legend-item';
-            more.innerHTML = `<span>+${data.labels.length - maxItems} more</span>`;
-            container.appendChild(more);
-        }
-    },
-
-    /**
-     * Create locations list
-     */
-    createLocationsList(container, locations) {
-        container.innerHTML = '';
-
-        if (locations.length === 0) {
-            container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">No location data available</p>';
-            return;
-        }
-
-        locations.forEach(loc => {
-            const item = document.createElement('div');
-            item.className = 'location-item';
-            item.innerHTML = `
-                <span class="location-rank">#${loc.rank}</span>
-                <div class="location-info">
-                    <div class="location-name">${loc.name}</div>
-                    <div class="location-count">${loc.count} drinks</div>
-                </div>
-                <div class="location-bar">
-                    <div class="location-bar-fill" style="width: ${loc.percentage}%"></div>
-                </div>
-            `;
-            container.appendChild(item);
-        });
-    },
-
-    /**
-     * Create Day of Week Bar Chart
-     */
-    createDayOfWeekChart(ctx, data) {
-        if (this.instances.dayOfWeek) {
-            this.instances.dayOfWeek.destroy();
-        }
-
-        this.instances.dayOfWeek = new Chart(ctx, {
+        self.instances.dayOfWeek = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: data.labels.map(d => d.substring(0, 3)),
+                labels: data.labels.map(function (d) { return d.substring(0, 3); }),
                 datasets: [{
                     label: 'Drinks',
                     data: data.values,
@@ -386,25 +219,23 @@ const Charts = {
             }
         });
 
-        return this.instances.dayOfWeek;
+        return self.instances.dayOfWeek;
     },
 
-    /**
-     * Create Hourly Area Chart
-     */
-    createHourlyChart(ctx, data) {
-        if (this.instances.hourly) {
-            this.instances.hourly.destroy();
+    createHourlyChart: function (ctx, data) {
+        var self = this;
+        if (self.instances.hourly) {
+            self.instances.hourly.destroy();
         }
 
-        const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+        var gradient = ctx.createLinearGradient(0, 0, 0, 250);
         gradient.addColorStop(0, 'rgba(245, 166, 35, 0.6)');
         gradient.addColorStop(1, 'rgba(245, 166, 35, 0.05)');
 
-        this.instances.hourly = new Chart(ctx, {
+        self.instances.hourly = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: data.labels.map(l => l.replace(':00', 'h')),
+                labels: data.labels.map(function (l) { return l.replace(':00', 'h'); }),
                 datasets: [{
                     label: 'Drinks',
                     data: data.values,
@@ -444,18 +275,16 @@ const Charts = {
             }
         });
 
-        return this.instances.hourly;
+        return self.instances.hourly;
     },
 
-    /**
-     * Create Country Horizontal Bar Chart
-     */
-    createCountryChart(ctx, data) {
-        if (this.instances.country) {
-            this.instances.country.destroy();
+    createCountryChart: function (ctx, data) {
+        var self = this;
+        if (self.instances.country) {
+            self.instances.country.destroy();
         }
 
-        this.instances.country = new Chart(ctx, {
+        self.instances.country = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: data.labels,
@@ -497,25 +326,25 @@ const Charts = {
             }
         });
 
-        return this.instances.country;
+        return self.instances.country;
     },
 
-    /**
-     * Create Session Size Bar Chart
-     */
-    createSessionChart(ctx, data) {
-        if (this.instances.session) {
-            this.instances.session.destroy();
+    createSessionChart: function (ctx, data) {
+        var self = this;
+        if (self.instances.session) {
+            self.instances.session.destroy();
         }
 
-        const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+        var gradient = ctx.createLinearGradient(0, 0, 0, 250);
         gradient.addColorStop(0, 'rgba(155, 89, 182, 0.8)');
         gradient.addColorStop(1, 'rgba(155, 89, 182, 0.3)');
 
-        this.instances.session = new Chart(ctx, {
+        self.instances.session = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: data.labels.map(l => l + ' drink' + (l === '1' ? '' : 's')),
+                labels: data.labels.map(function (l) {
+                    return l + ' drink' + (l === '1' ? '' : 's');
+                }),
                 datasets: [{
                     label: 'Sessions',
                     data: data.values,
@@ -550,18 +379,16 @@ const Charts = {
             }
         });
 
-        return this.instances.session;
+        return self.instances.session;
     },
 
-    /**
-     * Create Year Comparison Line Chart
-     */
-    createYearComparisonChart(ctx, data) {
-        if (this.instances.yearComparison) {
-            this.instances.yearComparison.destroy();
+    createYearComparisonChart: function (ctx, data) {
+        var self = this;
+        if (self.instances.yearComparison) {
+            self.instances.yearComparison.destroy();
         }
 
-        this.instances.yearComparison = new Chart(ctx, {
+        self.instances.yearComparison = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: data.labels,
@@ -605,102 +432,198 @@ const Charts = {
             }
         });
 
-        return this.instances.yearComparison;
+        return self.instances.yearComparison;
     },
 
-    /**
-     * Update all charts with new data
-     */
-    updateAll(data) {
-        const timelineData = DataProcessor.getTimelineData(data);
-        const distributionData = DataProcessor.getDrinkDistribution(data);
-        const monthlyData = DataProcessor.getMonthlyActivity(data);
-        const patternsData = DataProcessor.getDrinkingPatterns(data);
-        const locations = DataProcessor.getTopLocations(data);
-        const dayOfWeekData = DataProcessor.getDayOfWeekData(data);
-        const hourlyData = DataProcessor.getHourlyData(data);
-        const countryData = DataProcessor.getCountryData(data);
-        const sessionData = DataProcessor.getSessionData(data);
-        const yearData = DataProcessor.getYearComparison(data);
+    createHeatmap: function (container, data) {
+        container.innerHTML = '';
 
-        // Timeline (Cumulative)
-        const timelineCtx = document.getElementById('timelineChart');
-        if (timelineCtx) {
-            this.createTimelineChart(timelineCtx.getContext('2d'), timelineData);
+        var heatmap = document.createElement('div');
+        heatmap.className = 'heatmap';
+
+        // Header row with hours
+        heatmap.appendChild(document.createElement('div')); // Empty corner
+        for (var h = 0; h < 24; h += 2) {
+            var header = document.createElement('div');
+            header.className = 'heatmap-header';
+            header.textContent = h;
+            heatmap.appendChild(header);
         }
 
-        // Distribution
-        const distributionCtx = document.getElementById('distributionChart');
-        const legendContainer = document.getElementById('distributionLegend');
-        if (distributionCtx) {
-            this.createDistributionChart(distributionCtx.getContext('2d'), distributionData);
-            this.createDistributionLegend(legendContainer, distributionData);
-        }
+        // Day rows
+        var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-        // Day of Week
-        const dayOfWeekCtx = document.getElementById('dayOfWeekChart');
-        if (dayOfWeekCtx) {
-            this.createDayOfWeekChart(dayOfWeekCtx.getContext('2d'), dayOfWeekData);
-        }
+        days.forEach(function (day) {
+            var label = document.createElement('div');
+            label.className = 'heatmap-label';
+            label.textContent = day;
+            heatmap.appendChild(label);
 
-        // Hourly
-        const hourlyCtx = document.getElementById('hourlyChart');
-        if (hourlyCtx) {
-            this.createHourlyChart(hourlyCtx.getContext('2d'), hourlyData);
-        }
+            for (var h = 0; h < 24; h += 2) {
+                var cell = document.createElement('div');
+                cell.className = 'heatmap-cell';
 
-        // Heatmap
-        const heatmapContainer = document.getElementById('heatmapContainer');
-        if (heatmapContainer) {
-            this.createHeatmap(heatmapContainer, patternsData);
-        }
+                var count = (data.patterns[day][h] || 0) + (data.patterns[day][h + 1] || 0);
+                var level = data.max > 0 ? Math.min(5, Math.ceil((count / data.max) * 5)) : 0;
 
-        // Countries
-        const countryCtx = document.getElementById('countryChart');
-        if (countryCtx) {
-            this.createCountryChart(countryCtx.getContext('2d'), countryData);
-        }
+                if (level > 0) {
+                    cell.setAttribute('data-level', level);
+                }
 
-        // Sessions
-        const sessionCtx = document.getElementById('sessionChart');
-        if (sessionCtx) {
-            this.createSessionChart(sessionCtx.getContext('2d'), sessionData);
-        }
+                cell.title = day + ' ' + h + ':00-' + (h + 2) + ':00: ' + count + ' drinks';
+                heatmap.appendChild(cell);
+            }
+        });
 
-        // Year Comparison
-        const yearCtx = document.getElementById('yearComparisonChart');
-        if (yearCtx) {
-            this.createYearComparisonChart(yearCtx.getContext('2d'), yearData);
-        }
+        container.appendChild(heatmap);
+    },
 
-        // Monthly
-        const monthlyCtx = document.getElementById('monthlyChart');
-        if (monthlyCtx) {
-            this.createMonthlyChart(monthlyCtx.getContext('2d'), monthlyData);
-        }
+    createDistributionLegend: function (container, data) {
+        container.innerHTML = '';
 
-        // Locations
-        const locationsContainer = document.getElementById('locationsList');
-        if (locationsContainer) {
-            this.createLocationsList(locationsContainer, locations);
+        var maxItems = 8;
+        var items = data.labels.slice(0, maxItems);
+
+        items.forEach(function (label, i) {
+            var item = document.createElement('div');
+            item.className = 'legend-item';
+
+            var color = document.createElement('div');
+            color.className = 'legend-color';
+            color.style.backgroundColor = data.colors[i];
+
+            var text = document.createElement('span');
+            text.textContent = label;
+
+            item.appendChild(color);
+            item.appendChild(text);
+            container.appendChild(item);
+        });
+
+        if (data.labels.length > maxItems) {
+            var more = document.createElement('div');
+            more.className = 'legend-item';
+            more.innerHTML = '<span>+' + (data.labels.length - maxItems) + ' more</span>';
+            container.appendChild(more);
         }
     },
 
-    /**
-     * Destroy all chart instances
-     */
-    destroyAll() {
-        Object.values(this.instances).forEach(chart => {
+    createLocationsList: function (container, locations) {
+        container.innerHTML = '';
+
+        if (locations.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">No location data available</p>';
+            return;
+        }
+
+        locations.forEach(function (loc) {
+            var item = document.createElement('div');
+            item.className = 'location-item';
+            item.innerHTML =
+                '<span class="location-rank">#' + loc.rank + '</span>' +
+                '<div class="location-info">' +
+                '<div class="location-name">' + loc.name + '</div>' +
+                '<div class="location-count">' + loc.count + ' drinks</div>' +
+                '</div>' +
+                '<div class="location-bar">' +
+                '<div class="location-bar-fill" style="width: ' + loc.percentage + '%"></div>' +
+                '</div>';
+            container.appendChild(item);
+        });
+    },
+
+    updateAll: function (data) {
+        var self = this;
+
+        try {
+            var timelineData = DataProcessor.getTimelineData(data);
+            var distributionData = DataProcessor.getDrinkDistribution(data);
+            var monthlyData = DataProcessor.getMonthlyActivity(data);
+            var patternsData = DataProcessor.getDrinkingPatterns(data);
+            var locations = DataProcessor.getTopLocations(data);
+            var dayOfWeekData = DataProcessor.getDayOfWeekData(data);
+            var hourlyData = DataProcessor.getHourlyData(data);
+            var countryData = DataProcessor.getCountryData(data);
+            var sessionData = DataProcessor.getSessionData(data);
+            var yearData = DataProcessor.getYearComparison(data);
+
+            // Timeline (Cumulative)
+            var timelineEl = document.getElementById('timelineChart');
+            if (timelineEl) {
+                self.createTimelineChart(timelineEl.getContext('2d'), timelineData);
+            }
+
+            // Distribution
+            var distributionEl = document.getElementById('distributionChart');
+            var legendContainer = document.getElementById('distributionLegend');
+            if (distributionEl) {
+                self.createDistributionChart(distributionEl.getContext('2d'), distributionData);
+                self.createDistributionLegend(legendContainer, distributionData);
+            }
+
+            // Day of Week
+            var dayOfWeekEl = document.getElementById('dayOfWeekChart');
+            if (dayOfWeekEl) {
+                self.createDayOfWeekChart(dayOfWeekEl.getContext('2d'), dayOfWeekData);
+            }
+
+            // Hourly
+            var hourlyEl = document.getElementById('hourlyChart');
+            if (hourlyEl) {
+                self.createHourlyChart(hourlyEl.getContext('2d'), hourlyData);
+            }
+
+            // Heatmap
+            var heatmapContainer = document.getElementById('heatmapContainer');
+            if (heatmapContainer) {
+                self.createHeatmap(heatmapContainer, patternsData);
+            }
+
+            // Countries
+            var countryEl = document.getElementById('countryChart');
+            if (countryEl) {
+                self.createCountryChart(countryEl.getContext('2d'), countryData);
+            }
+
+            // Sessions
+            var sessionEl = document.getElementById('sessionChart');
+            if (sessionEl) {
+                self.createSessionChart(sessionEl.getContext('2d'), sessionData);
+            }
+
+            // Year Comparison
+            var yearEl = document.getElementById('yearComparisonChart');
+            if (yearEl) {
+                self.createYearComparisonChart(yearEl.getContext('2d'), yearData);
+            }
+
+            // Monthly
+            var monthlyEl = document.getElementById('monthlyChart');
+            if (monthlyEl) {
+                self.createMonthlyChart(monthlyEl.getContext('2d'), monthlyData);
+            }
+
+            // Locations
+            var locationsContainer = document.getElementById('locationsList');
+            if (locationsContainer) {
+                self.createLocationsList(locationsContainer, locations);
+            }
+        } catch (e) {
+            console.error('Error updating charts:', e);
+        }
+    },
+
+    destroyAll: function () {
+        var self = this;
+        Object.keys(self.instances).forEach(function (key) {
+            var chart = self.instances[key];
             if (chart && typeof chart.destroy === 'function') {
                 chart.destroy();
             }
         });
-        this.instances = {}
+        self.instances = {};
     }
 };
 
-// Initialize defaults
 Charts.initDefaults();
-
-// Export for use in other files
 window.Charts = Charts;
