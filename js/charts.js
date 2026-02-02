@@ -541,11 +541,13 @@ var Charts = {
     updateAll: function (data) {
         var self = this;
 
+        console.log('Charts.updateAll called with', data.length, 'entries');
+
         try {
+            // Get all chart data
             var timelineData = DataProcessor.getTimelineData(data);
             var distributionData = DataProcessor.getDrinkDistribution(data);
             var monthlyData = DataProcessor.getMonthlyActivity(data);
-            var patternsData = DataProcessor.getDrinkingPatterns(data);
             var locations = DataProcessor.getTopLocations(data);
             var dayOfWeekData = DataProcessor.getDayOfWeekData(data);
             var hourlyData = DataProcessor.getHourlyData(data);
@@ -553,10 +555,13 @@ var Charts = {
             var sessionData = DataProcessor.getSessionData(data);
             var yearData = DataProcessor.getYearComparison(data);
 
+            console.log('Data processed, updating charts...');
+
             // Timeline (Cumulative)
             var timelineEl = document.getElementById('timelineChart');
             if (timelineEl) {
                 self.createTimelineChart(timelineEl.getContext('2d'), timelineData);
+                console.log('Timeline chart updated');
             }
 
             // Distribution
@@ -564,58 +569,65 @@ var Charts = {
             var legendContainer = document.getElementById('distributionLegend');
             if (distributionEl) {
                 self.createDistributionChart(distributionEl.getContext('2d'), distributionData);
-                self.createDistributionLegend(legendContainer, distributionData);
+                if (legendContainer) {
+                    self.createDistributionLegend(legendContainer, distributionData);
+                }
+                console.log('Distribution chart updated');
             }
 
             // Day of Week
             var dayOfWeekEl = document.getElementById('dayOfWeekChart');
             if (dayOfWeekEl) {
                 self.createDayOfWeekChart(dayOfWeekEl.getContext('2d'), dayOfWeekData);
+                console.log('Day of Week chart updated');
             }
 
             // Hourly
             var hourlyEl = document.getElementById('hourlyChart');
             if (hourlyEl) {
                 self.createHourlyChart(hourlyEl.getContext('2d'), hourlyData);
-            }
-
-            // Heatmap
-            var heatmapContainer = document.getElementById('heatmapContainer');
-            if (heatmapContainer) {
-                self.createHeatmap(heatmapContainer, patternsData);
+                console.log('Hourly chart updated');
             }
 
             // Countries
             var countryEl = document.getElementById('countryChart');
             if (countryEl) {
                 self.createCountryChart(countryEl.getContext('2d'), countryData);
+                console.log('Country chart updated');
             }
 
             // Sessions
             var sessionEl = document.getElementById('sessionChart');
             if (sessionEl) {
                 self.createSessionChart(sessionEl.getContext('2d'), sessionData);
+                console.log('Session chart updated');
             }
 
             // Year Comparison
             var yearEl = document.getElementById('yearComparisonChart');
             if (yearEl) {
                 self.createYearComparisonChart(yearEl.getContext('2d'), yearData);
+                console.log('Year comparison chart updated');
             }
 
             // Monthly
             var monthlyEl = document.getElementById('monthlyChart');
             if (monthlyEl) {
                 self.createMonthlyChart(monthlyEl.getContext('2d'), monthlyData);
+                console.log('Monthly chart updated');
             }
 
             // Locations
             var locationsContainer = document.getElementById('locationsList');
             if (locationsContainer) {
                 self.createLocationsList(locationsContainer, locations);
+                console.log('Locations list updated');
             }
+
+            console.log('All charts updated successfully');
         } catch (e) {
             console.error('Error updating charts:', e);
+            console.error('Stack:', e.stack);
         }
     },
 
