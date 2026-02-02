@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Beer With Me Wrapped</title>
+    <meta name="description" content="Visualize your Beer With Me drinking history with beautiful charts and statistics">
+    <meta name="theme-color" content="#0D0D0D">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Main App -->
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🍺</span>
+                <div class="logo-text">
+                    <span class="logo-title">Beer With Me</span>
+                    <span class="logo-subtitle">WRAPPED</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection">
+            <div class="upload-card">
+                <div class="upload-icon">📂</div>
+                <h2 class="upload-title">Upload Your Data</h2>
+                <p class="upload-desc">Drop your <code>history_all.json</code> file here or click to browse</p>
+                <input type="file" id="fileInput" accept=".json" hidden>
+                <label for="fileInput" class="upload-btn">
+                    <span>Choose File</span>
+                </label>
+                <p class="upload-hint">Your data stays on your device - nothing is uploaded to any server</p>
+            </div>
+        </section>
+
+        <!-- Stats Section (Hidden until data loaded) -->
+        <main class="main-content" id="mainContent" style="display: none;">
+            
+            <!-- Hero Stats -->
+            <section class="hero-stats">
+                <div class="stat-card stat-card--primary">
+                    <span class="stat-value" id="totalDrinks">0</span>
+                    <span class="stat-label">Total Drinks</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon" id="favoriteDrinkIcon">🍺</span>
+                    <span class="stat-value" id="favoriteDrink">Beer</span>
+                    <span class="stat-label">Favorite</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="totalCountries">0</span>
+                    <span class="stat-label">Countries</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="totalLocations">0</span>
+                    <span class="stat-label">Locations</span>
+                </div>
+            </section>
+
+            <!-- Timeline Filter -->
+            <section class="timeline-filter">
+                <div class="filter-buttons">
+                    <button class="filter-btn" data-range="3m">3M</button>
+                    <button class="filter-btn" data-range="6m">6M</button>
+                    <button class="filter-btn" data-range="1y">1Y</button>
+                    <button class="filter-btn active" data-range="all">All</button>
+                </div>
+            </section>
+
+            <!-- Timeline Chart -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">📈</span>
+                        Drinks Over Time
+                    </h3>
+                    <div class="chart-container chart-container--timeline">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Drink Distribution -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">🍩</span>
+                        Drink Distribution
+                    </h3>
+                    <div class="chart-container chart-container--donut">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                    <div class="legend" id="distributionLegend"></div>
+                </div>
+            </section>
+
+            <!-- Drinking Patterns Heatmap -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">🔥</span>
+                        Drinking Patterns
+                    </h3>
+                    <p class="chart-subtitle">When do you drink the most?</p>
+                    <div class="heatmap-container" id="heatmapContainer"></div>
+                </div>
+            </section>
+
+            <!-- Monthly Activity -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">📊</span>
+                        Monthly Activity
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Top Locations -->
+            <section class="chart-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        <span class="chart-icon">📍</span>
+                        Top Locations
+                    </h3>
+                    <div class="locations-list" id="locationsList"></div>
+                </div>
+            </section>
+
+            <!-- Fun Facts -->
+            <section class="fun-facts">
+                <h3 class="section-title">
+                    <span class="chart-icon">✨</span>
+                    Fun Facts
+                </h3>
+                <div class="facts-grid">
+                    <div class="fact-card">
+                        <span class="fact-icon">🏆</span>
+                        <span class="fact-value" id="maxDrinksDay">0</span>
+                        <span class="fact-label">Most drinks in one day</span>
+                    </div>
+                    <div class="fact-card">
+                        <span class="fact-icon">🔥</span>
+                        <span class="fact-value" id="longestStreak">0</span>
+                        <span class="fact-label">Longest drinking streak (days)</span>
+                    </div>
+                    <div class="fact-card">
+                        <span class="fact-icon">📅</span>
+                        <span class="fact-value" id="avgPerWeek">0</span>
+                        <span class="fact-label">Avg drinks per week</span>
+                    </div>
+                    <div class="fact-card">
+                        <span class="fact-icon">⏰</span>
+                        <span class="fact-value" id="peakHour">18:00</span>
+                        <span class="fact-label">Peak drinking hour</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>Made with 🍺 by Beer With Me Wrapped</p>
+                <p class="footer-note">Your data never leaves your device</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/dataProcessor.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
