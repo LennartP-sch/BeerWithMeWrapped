@@ -441,8 +441,12 @@ var Charts = {
         var heatmap = document.createElement('div');
         heatmap.className = 'heatmap';
 
-        // Header row with hours
-        heatmap.appendChild(document.createElement('div')); // Empty corner
+        // Row 1: Header row - empty corner + 12 hour headers
+        var corner = document.createElement('div');
+        corner.className = 'heatmap-label';
+        corner.textContent = '';
+        heatmap.appendChild(corner);
+
         for (var h = 0; h < 24; h += 2) {
             var header = document.createElement('div');
             header.className = 'heatmap-header';
@@ -450,15 +454,17 @@ var Charts = {
             heatmap.appendChild(header);
         }
 
-        // Day rows
-        var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        // Day rows (Mon through Sun)
+        var dayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-        days.forEach(function (day) {
+        dayOrder.forEach(function (day) {
+            // Day label
             var label = document.createElement('div');
             label.className = 'heatmap-label';
             label.textContent = day;
             heatmap.appendChild(label);
 
+            // 12 cells for each 2-hour block
             for (var h = 0; h < 24; h += 2) {
                 var cell = document.createElement('div');
                 cell.className = 'heatmap-cell';
